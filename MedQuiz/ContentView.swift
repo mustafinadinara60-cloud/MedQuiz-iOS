@@ -16,7 +16,7 @@ struct ContentView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
 
-                    // Статистика
+                    // Общая статистика
                     HStack(spacing: 12) {
                         statCard(
                             title: "Тестов",
@@ -34,6 +34,7 @@ struct ContentView: View {
                         )
                     }
 
+                    // Патанатомия
                     NavigationLink {
                         PathologyQuizView()
                     } label: {
@@ -43,6 +44,7 @@ struct ContentView: View {
                         )
                     }
 
+                    // Кардиология
                     NavigationLink {
                         CardiologyQuizView()
                     } label: {
@@ -52,6 +54,7 @@ struct ContentView: View {
                         )
                     }
 
+                    // Фармакология
                     NavigationLink {
                         PharmacologyQuizView()
                     } label: {
@@ -61,13 +64,11 @@ struct ContentView: View {
                         )
                     }
 
+                    // История
                     NavigationLink {
                         HistoryView()
                     } label: {
-                        topicCard(
-                            title: "История результатов",
-                            icon: "clock.arrow.circlepath"
-                        )
+                        historyCard
                     }
                 }
                 .padding()
@@ -76,16 +77,61 @@ struct ContentView: View {
         }
     }
 
-    // Карточка темы
+    // MARK: - Карточка предмета
+
     private func topicCard(
         title: String,
         icon: String
     ) -> some View {
+
+        let progress = bestScore(for: title)
+
+        return VStack(alignment: .leading, spacing: 12) {
+
+            SwiftUI.HStack {
+                Image(systemName: icon)
+                    .font(.title2)
+
+                Text(title)
+                    .font(.headline)
+
+                Spacer()
+
+                if progress > 0 {
+                    Text("\(Int((progress * 100).rounded()))%")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                }
+
+                Image(systemName: "chevron.right")
+            }
+
+            if progress > 0 {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Лучший результат")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    ProgressView(value: progress)
+                }
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.secondarySystemBackground))
+        )
+    }
+
+    // MARK: - История
+
+    private var historyCard: some View {
         HStack {
-            Image(systemName: icon)
+            Image(systemName: "clock.arrow.circlepath")
                 .font(.title2)
 
-            Text(title)
+            Text("История результатов")
                 .font(.headline)
 
             Spacer()
@@ -100,7 +146,8 @@ struct ContentView: View {
         )
     }
 
-    // Карточка статистики
+    // MARK: - Статистика
+
     private func statCard(
         title: String,
         value: String
@@ -122,7 +169,6 @@ struct ContentView: View {
         )
     }
 
-    // Средний результат
     private var averageScore: String {
         guard !resultStore.results.isEmpty else {
             return "—"
@@ -139,7 +185,6 @@ struct ContentView: View {
         return "\(Int((average * 100).rounded()))%"
     }
 
-    // Лучший результат
     private var bestScore: String {
         guard let best = resultStore.results
             .map({
@@ -151,6 +196,18 @@ struct ContentView: View {
         }
 
         return "\(Int((best * 100).rounded()))%"
+    }
+
+    private func bestScore(for topic: String) -> Double {
+        let topicResults = resultStore.results.filter {
+            $0.topic == topic
+        }
+
+        return topicResults
+            .map {
+                Double($0.score) / Double($0.total)
+            }
+            .max() ?? 0
     }
 }
 
