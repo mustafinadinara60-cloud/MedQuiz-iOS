@@ -6,9 +6,10 @@ The app helps students review medical topics through short multiple-choice quizz
 ## Screenshots
 
 <p align="center">
-  <img src="Screenshots/home.png" width="250">
-  <img src="Screenshots/quiz.png" width="250">
-  <img src="Screenshots/result.png" width="250">
+  <img src="Screenshots/Screenshots/home.png" width="210">
+  <img src="Screenshots/Screenshots/quiz.png" width="210">
+  <img src="Screenshots/Screenshots/result.png" width="210">
+  <img src="Screenshots/Screenshots/history.png" width="210">
 </p>
 ## Features
 
