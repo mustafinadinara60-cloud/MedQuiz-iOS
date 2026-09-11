@@ -23,9 +23,7 @@ struct ContentView: View {
                 }
 
                 NavigationLink {
-                    Text("Здесь будут вопросы по кардиологии")
-                        .font(.title2)
-                        .padding()
+                    CardiologyQuizView()
                 } label: {
                     topicCard(
                         title: "Кардиология",
@@ -34,9 +32,7 @@ struct ContentView: View {
                 }
 
                 NavigationLink {
-                    Text("Здесь будут вопросы по фармакологии")
-                        .font(.title2)
-                        .padding()
+                    PharmacologyQuizView()
                 } label: {
                     topicCard(
                         title: "Фармакология",
