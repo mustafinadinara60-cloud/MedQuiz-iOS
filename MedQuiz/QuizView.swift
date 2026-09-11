@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct QuizView: View {
+    @EnvironmentObject private var resultStore: ResultStore
+
     let title: String
     let questions: [QuizQuestion]
 
@@ -56,8 +58,8 @@ struct QuizView: View {
                         if selectedAnswer == index {
                             Image(
                                 systemName: isCorrect(index)
-                                ? "checkmark.circle.fill"
-                                : "xmark.circle.fill"
+                                    ? "checkmark.circle.fill"
+                                    : "xmark.circle.fill"
                             )
                         }
                     }
@@ -77,8 +79,8 @@ struct QuizView: View {
 
                     Text(
                         isCorrect(selectedAnswer)
-                        ? "Правильно!"
-                        : "Неправильно"
+                            ? "Правильно!"
+                            : "Неправильно"
                     )
                     .font(.headline)
 
@@ -100,8 +102,8 @@ struct QuizView: View {
                 } label: {
                     Text(
                         currentQuestion == questions.count - 1
-                        ? "Показать результат"
-                        : "Следующий вопрос"
+                            ? "Показать результат"
+                            : "Следующий вопрос"
                     )
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
@@ -171,6 +173,12 @@ struct QuizView: View {
             currentQuestion += 1
             selectedAnswer = nil
         } else {
+            resultStore.addResult(
+                topic: title,
+                score: score,
+                total: questions.count
+            )
+
             quizFinished = true
         }
     }
@@ -214,4 +222,5 @@ struct QuizView: View {
             ]
         )
     }
+    .environmentObject(ResultStore())
 }
