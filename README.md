@@ -3,7 +3,13 @@
 MedQuiz is an educational iOS application for medical students built with SwiftUI.
 
 The app helps students review medical topics through short multiple-choice quizzes with instant feedback and explanations.
+## Screenshots
 
+<p align="center">
+  <img src="Screenshots/home.png" width="250">
+  <img src="Screenshots/quiz.png" width="250">
+  <img src="Screenshots/result.png" width="250">
+</p>
 ## Features
 
 - Medical topic selection
